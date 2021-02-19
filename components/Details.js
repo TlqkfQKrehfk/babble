@@ -13,7 +13,7 @@ import { LISTDATA } from '../shared/list'
 
 // JSX를 쓸려면 import React from 'react';
 // Navigator로 화면을 이동할 때 컴포넌트 속성으로 route, navigation이 전달됨
-const Details = ( { route, navigation }) => {
+const Details = ({ route, navigation }) => {
 
   // navigation.navigate("스크린이름", 매개변수)
   console.log("--detail");
@@ -43,34 +43,39 @@ const Details = ( { route, navigation }) => {
         alignItems: "center"
       }}>
       <Card>
-        <Card.Title>{item.title}{
-          isExistedAction 
-            ?
-            <Button
-              onPress={()=>{dispatch(removeAction(id))}}
-              icon={<Icon name='heart' type='ionicon' color='gray' />}
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"#ffffff"}}
-              iconRight
-              title='' 
-            /> 
-            :
-            <Button
-              onPress={()=>{dispatch(addAction(item))}}
-              icon={<Icon name='heart' type='ionicon' color='tomato' />}
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"#ffffff"}}
-              iconRight
-              title=''
-            />    
-        }</Card.Title>
-        <Card.Divider/>
-        <Card.Image source={{uri: item.image}}>
+        <Card.Title>{item.title}
+         
+
+        </Card.Title>
+
+        <Card.Divider />
+
+
+        <Card.Image source={{ uri: item.image }}>
         </Card.Image>
-        <Card.Divider/>        
-        <Text style={{marginBottom: 10}}>
+        <Card.Divider />
+        <Text style={{ marginBottom: 10 }}>
           {item.description}
         </Text>
-        
-            
+
+        {
+            isExistedAction
+              ?
+              <Button
+                onPress={() => { dispatch(removeAction(id)) }}
+                icon={<Icon name='heart' type='ionicon' color='red' />}
+                buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "#ffffff" }}
+                iconRight
+              />
+              :
+              <Button
+                onPress={() => { dispatch(addAction(item)) }}
+                icon={<Icon name='heart' type='ionicon' color='gray' />}
+                buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "#ffffff" }}
+                iconRight
+              />
+          }
+
       </Card>
     </View>
   )
