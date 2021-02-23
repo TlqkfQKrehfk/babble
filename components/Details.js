@@ -1,19 +1,21 @@
-import React from 'react';
+import { apisAreAvailable } from 'expo';
+import React, { useEffect, useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Button, Icon } from 'react-native-elements'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addAction } from '../redux/actions'
-import { removeAction } from '../redux/actions'
+import { addTask, removeTask } from '../redux/actions/tasks'
 
 import { LISTDATA } from '../shared/list'
+
+import api from '../api/list'
 
 // 함수의 리턴 값이 JSX.Element면
 // React 컴포넌트가 된다.
 
 // JSX를 쓸려면 import React from 'react';
 // Navigator로 화면을 이동할 때 컴포넌트 속성으로 route, navigation이 전달됨
-const Details = ({ route, navigation }) => {
+const Details = ( { route, navigation }) => {
 
   // navigation.navigate("스크린이름", 매개변수)
   console.log("--detail");
@@ -22,18 +24,27 @@ const Details = ({ route, navigation }) => {
   // const id = route.params.id;
   const { id } = route.params;
 
-  const item = LISTDATA.filter(item => item.id == id)[0];
-  console.log(item);
+  const [item, setItem] = useState({});
 
   const dispatch = useDispatch();
 
-  const actions = useSelector(state => state.actions);
-  console.log("--actions--");
-  console.log(actions);
+  const tasks = useSelector(state => state.tasks);
+  console.log("--tasks--");
+  console.log(tasks);
 
-  const isExistedAction = actions.filter(item => item.id == id).length > 0 ? true : false;
-  console.log("--isExistedAction--");
-  console.log(isExistedAction);
+  const isExistedTask = tasks.filter(item => item.id == id).length > 0 ? true : false;
+  console.log("--isExistedTask--");
+  console.log(isExistedTask);
+
+  const getDetails = useCallback(async () => {
+    const result = await api.get(id);
+    console.log(result.data);
+    setItem(result.data);
+  }, [])
+
+  useEffect(()=>{
+    getDetails();
+  }, []);
 
   return (
     <View
@@ -43,38 +54,31 @@ const Details = ({ route, navigation }) => {
         alignItems: "center"
       }}>
       <Card>
-        <Card.Title>{item.title}
-         
-
-        </Card.Title>
-
-        <Card.Divider />
-
-
-        <Card.Image source={{ uri: item.image }}>
+        <Card.Title>{item.title}</Card.Title>
+        <Card.Divider/>
+        <Card.Image source={{uri: item.image}}>
         </Card.Image>
-        <Card.Divider />
-        <Text style={{ marginBottom: 10 }}>
+        <Card.Divider/>        
+        <Text style={{marginBottom: 10}}>
           {item.description}
         </Text>
-
         {
-            isExistedAction
-              ?
-              <Button
-                onPress={() => { dispatch(removeAction(id)) }}
-                icon={<Icon name='heart' type='ionicon' color='red' />}
-                buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "#ffffff" }}
-                iconRight
-              />
-              :
-              <Button
-                onPress={() => { dispatch(addAction(item)) }}
-                icon={<Icon name='heart' type='ionicon' color='gray' />}
-                buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "#ffffff" }}
-                iconRight
-              />
-          }
+          isExistedTask 
+            ?
+            <Button
+              onPress={()=>{dispatch(removeTask(id))}}
+              icon={<Icon name='close' type='ionicon' color='#ffffff' />}
+              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"gray"}}
+              title='REMOVE TASK' 
+            /> 
+            :
+            <Button
+              onPress={()=>{dispatch(addTask(item))}}
+              icon={<Icon name='checkmark' type='ionicon' color='#ffffff' />}
+              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"tomato"}}
+              title='ADD TASK' 
+            />    
+        }
 
       </Card>
     </View>

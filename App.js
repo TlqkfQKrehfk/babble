@@ -11,7 +11,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Home from './components/Home'
 import List from './components/List'
 import Details from './components/Details'
-import Actions from './components/Actions'
+import Tasks from './components/Tasks'
+import Example from './components/Example'
 // import Schedule from './components/Schedule'
 
 
@@ -63,7 +64,7 @@ const screenOptions = ({ route }) => ({
           ? 'list'
           : 'list-outline'; 
         break;
-      case 'Actions':
+      case 'Tasks':
         iconName = focused
           ? 'heart'
           : 'heart-outline'; 
@@ -73,6 +74,12 @@ const screenOptions = ({ route }) => ({
       //     ? 'heart'
       //     : 'heart-outline'; 
       //   break;
+      case 'Example':
+        iconName = focused
+          ? 'heart'
+          : 'heart-outline'; 
+        break;
+      
     }
 
     // You can return any component that you like here!
@@ -93,7 +100,8 @@ export default function App() {
           <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
             <Tab.Screen name="Home" component={HomeStackScreen} />
             <Tab.Screen name="List" component={ListStackScreen} />
-            <Tab.Screen name="Actions" component={Actions} />
+            <Tab.Screen name="Tasks" component={Tasks} />
+            <Tab.Screen name="Exmaple" component={Example} />
             {/* <Tab.Screen name="Schedule" component={Schedule} /> */}
             
           </Tab.Navigator>
