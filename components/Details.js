@@ -6,8 +6,6 @@ import { Card, Button, Icon } from 'react-native-elements'
 import { useDispatch, useSelector } from 'react-redux'
 import { addTask, removeTask } from '../redux/actions/tasks'
 
-import { LISTDATA } from '../shared/list'
-
 import api from '../api/list'
 
 // 함수의 리턴 값이 JSX.Element면
@@ -41,7 +39,7 @@ const Details = ( { route, navigation }) => {
     console.log(result.data);
     setTimeout(()=>{
       setItem(result.data);
-    }, 300)
+    }, 0)
     
   }, [])
 
@@ -60,6 +58,23 @@ const Details = ( { route, navigation }) => {
       { item && 
       <Card>
         <Card.Title>{item.title}</Card.Title>
+        <View style={{width :10% }} >{
+          isExistedTask 
+            ?
+            <Button
+              onPress={()=>{dispatch(removeTask(id))}}
+              icon={<Icon name='heart' type='ionicon' color='#ffffff' />}
+              buttonStyle={{borderRadius: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "gray"}}
+              title='' 
+            /> 
+            :
+            <Button
+              onPress={()=>{dispatch(addTask(item))}}
+              icon={<Icon name='heart' type='ionicon' color='#ffffff' />}
+              buttonStyle={{borderRadius: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "tomato"}}
+              title='' 
+            />    
+        }</View>
         <Card.Divider/>
         <Card.Image source={{uri: item.image}}>
         </Card.Image>
@@ -67,23 +82,7 @@ const Details = ( { route, navigation }) => {
         <Text style={{marginBottom: 10}}>
           {item.description}
         </Text>
-        {
-          isExistedTask 
-            ?
-            <Button
-              onPress={()=>{dispatch(removeTask(id))}}
-              icon={<Icon name='close' type='ionicon' color='#ffffff' />}
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"gray"}}
-              title='REMOVE TASK' 
-            /> 
-            :
-            <Button
-              onPress={()=>{dispatch(addTask(item))}}
-              icon={<Icon name='checkmark' type='ionicon' color='#ffffff' />}
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"tomato"}}
-              title='ADD TASK' 
-            />    
-        }
+
             
       </Card>
       }
