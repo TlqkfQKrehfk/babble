@@ -1,43 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Image, Text, View, SafeAreaView } from 'react-native';
+import { Image, Text, View, SafeAreaView,Button } from 'react-native';
 import moment from 'moment';
 
 
 //container 에 스타일 지정
+const Example = () => {
+  // UI의 데이터 부분을 변경할 때 필요한 변수 state
+  // const [state명, state변경함수명] = useState(state초기값);
+  const [count, setCount] = useState(0);
 
-
-export default function App() {
-
-  //처음에 시작할때 화면에 표시될 값
-  const [ now , setTime ] = useState( moment() );
-  //컴포넌트에 변화가 일어났을 때 
-  //1초 주기마다 화면에 나타나는 시간 갱신
-  React.useEffect(() => {
-    setInterval(() => {setTime( moment() )});
-  },[]);
-  
-  //뷰 
   return (
-    <SafeAreaView >
-      <StatusBar style="none" />
-      
-      <View style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }} >
-        <View >
-            <Text style={{color:'white'}}>{ now.format( 'ddd / MMM Do / YYYY' )}</Text>
-        </View>
-        <View>
-          <Text>마지막 기저귀 시간</Text>
-          <Text>{ now.format( 'mm' ) }분전</Text>
-          
-        </View>
-      </View>
-      </SafeAreaView>
-      
-  );
+    <View 
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
+                   {/* {state 또는 prop}  */}
+      <Text>You clicked {count} times</Text>
+                    {/* state변경함수명(변경할state값) */}
+                    {/* state 변경하면 화면이 다시 렌더링됨 */}
+      <Button onPress={() => setCount(count+1)} title="Click me!"></Button>
+
+    </View>
+  )
 }
 
+export default Example;
