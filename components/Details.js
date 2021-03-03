@@ -71,7 +71,7 @@ const Details = ( { route, navigation }) => {
             ?
             <Button
               onPress={()=>{dispatch(removeTask(id))}}
-              icon={<Icon name='heart' type='ionicon' color='toamto' />}
+              icon={<Icon name='heart' type='ionicon' color='tomato' />}
               buttonStyle={{borderRadius: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "white"}}
               title='' 
             /> 
