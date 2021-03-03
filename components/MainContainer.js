@@ -16,13 +16,12 @@ import Tasks from './Tasks'
 // https://ionicons.com/
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
-import Example from './Example';
 
 const Tab = createBottomTabNavigator();
 const ListStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 const TaskStack = createStackNavigator();
-const ExampleStack = createStackNavigator();
+
 
 const HomeStackScreen = () => {
   return (
@@ -51,14 +50,6 @@ const TaskStackScreen = () => {
   )
 }
 
-const ExampleStackScreen = () => {
-  return (
-    <ExampleStack.Navigator>
-      <ExampleStack.Screen name="Example" component={Example} options={{title:"Example", headerTitleAlign:"center"}} />
-      <ExampleStack.Screen name="Details" component={Details} options={{title:"Details", headerTitleAlign:"center"}}  />
-    </ExampleStack.Navigator>
-  )
-}
 
 
 const screenOptions = ({ route }) => ({
@@ -82,12 +73,7 @@ const screenOptions = ({ route }) => ({
           ? 'checkmark'
           : 'checkmark-outline'; 
         break;       
-      case 'Example':
-        iconName = focused
-          ? 'heart'
-          : 'heart-outline'; 
-        break;       
-    }
+}
     
     // You can return any component that you like here!
     return <Ionicons name={iconName} size={size} color={color} />;
@@ -115,7 +101,6 @@ export default function Main() {
           <Tab.Screen name="Home" component={HomeStackScreen} />
           <Tab.Screen name="List" component={ListStackScreen} />
           <Tab.Screen name="Tasks" component={TaskStackScreen} />
-          <Tab.Screen name="Example" component={ExampleStackScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

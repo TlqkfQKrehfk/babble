@@ -58,23 +58,7 @@ const Details = ( { route, navigation }) => {
       { item && 
       <Card>
         <Card.Title>{item.title}</Card.Title>
-        <View>{
-          isExistedTask 
-            ?
-            <Button
-              onPress={()=>{dispatch(removeTask(id))}}
-              icon={<Icon name='heart' type='ionicon' color='#ffffff' />}
-              buttonStyle={{borderRadius: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "gray"}}
-              title='' 
-            /> 
-            :
-            <Button
-              onPress={()=>{dispatch(addTask(item))}}
-              icon={<Icon name='heart' type='ionicon' color='#ffffff' />}
-              buttonStyle={{borderRadius: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "tomato"}}
-              title='' 
-            />    
-        }</View>
+        <View></View>
         <Card.Divider/>
         <Card.Image source={{uri: item.image}}>
         </Card.Image>
@@ -82,6 +66,23 @@ const Details = ( { route, navigation }) => {
         <Text style={{marginBottom: 10}}>
           {item.description}
         </Text>
+        {
+          isExistedTask 
+            ?
+            <Button
+              onPress={()=>{dispatch(removeTask(id))}}
+              icon={<Icon name='heart' type='ionicon' color='toamto' />}
+              buttonStyle={{borderRadius: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "white"}}
+              title='' 
+            /> 
+            :
+            <Button
+              onPress={()=>{dispatch(addTask(item))}}
+              icon={<Icon name='heart' type='ionicon' color='gray' />}
+              buttonStyle={{borderRadius: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: "white"}}
+              title='' 
+            />    
+        }
 
             
       </Card>
