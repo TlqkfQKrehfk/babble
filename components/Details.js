@@ -58,7 +58,7 @@ const Details = ( { route, navigation }) => {
       { item && 
       <Card>
         <Card.Title>{item.title}</Card.Title>
-        <View style={{width :10% }} >{
+        <View>{
           isExistedTask 
             ?
             <Button
