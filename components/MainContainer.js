@@ -1,5 +1,3 @@
-import 'react-native-gesture-handler';
-
 import React, { useEffect } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,16 +10,20 @@ import Home from './Home'
 import List from './ListContainer'
 import Details from './Details'
 import Tasks from './Tasks'
+import HWTest from './HWTest'
 
 // https://ionicons.com/
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useDispatch } from 'react-redux';
+import { Alert } from 'react-native'
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import messaging from '@react-native-firebase/messaging';
 
 const Tab = createBottomTabNavigator();
 const ListStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 const TaskStack = createStackNavigator();
-
 
 const HomeStackScreen = () => {
   return (
@@ -70,10 +72,15 @@ const screenOptions = ({ route }) => ({
         break;
       case 'Tasks':
         iconName = focused
-          ? 'checkmark'
-          : 'checkmark-outline'; 
-        break;       
-}
+          ? 'heart'
+          : 'heart-outline'; 
+        break;
+      case 'HWTest':
+        iconName = focused
+          ? 'hardware-chip'
+          : 'hardware-chip-outline'; 
+        break;                
+    }
     
     // You can return any component that you like here!
     return <Ionicons name={iconName} size={size} color={color} />;
@@ -89,18 +96,48 @@ export default function Main() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    console.log("--main is mounted--")
+    console.log("-- main is mounted--")
     // back-end에서 tasks 데이터를 가져오고, global state를 갱신
-    dispatch({type: "FETCH_TASKS"})
+    dispatch({type:"FETCH_TASKS"})
   }, [])
 
+  useEffect(() => {
+
+    messaging().getToken()
+    .then(token => {
+      console.log("--token--");
+      console.log(token);
+    }); 
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);  
+
+  const alert = useSelector(state => state.alert)
+  console.log('--alert--')
+  console.log(alert)
+
+  if(alert.isShow) {
+    Alert.alert(
+      "Errors",
+      alert.msg,
+      [
+        { text: "OK", onPress: () => dispatch({type:"CLOSE_ALERT"}) }
+      ],
+      { cancelable: false }
+    );
+  } 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer>    
         <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
           <Tab.Screen name="Home" component={HomeStackScreen} />
           <Tab.Screen name="List" component={ListStackScreen} />
           <Tab.Screen name="Tasks" component={TaskStackScreen} />
+          <Tab.Screen name="HWTest" component={HWTest} />
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
