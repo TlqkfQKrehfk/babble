@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga'
 import rootReducer from './redux/reducers'
 import rootSaga from './redux/sagas'
 
-import Main from './components/MainContainer' 
+import Main from './components/MainContainer'
 
 const sagaMiddleWare = createSagaMiddleware()
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleWare))
@@ -20,7 +20,7 @@ export default function App() {
   return (
     <Provider store={store}>
       {/* useDispatch, useSelector 안됨 */}
-     <Main/>
+      <Main />
     </Provider>
   );
 }

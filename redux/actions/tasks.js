@@ -2,7 +2,7 @@
 export const addTask = payload => (
   // Action -> Design pattern : Command Pattern
   {
-   type: 'ADD_TASK',
+    type: 'ADD_TASK',
     payload
   }
 )

@@ -15,24 +15,24 @@ function* addTask(action) {
 
 }
 
-function* removeTask(action){
+function* removeTask(action) {
   console.log("-- Saga: action type --")
   console.log(action);
   const result = yield call(api.delete, action.payload)
   console.log("--")
-  yield put({type: "REMOVE_TASK_SUCCEEDED", payload: action.payload});
+  yield put({ type: "REMOVE_TASK_SUCCEEDED", payload: action.payload });
 }
 
-function* fetchTasks(action){
+function* fetchTasks(action) {
   console.log("-- Saga: action.type --")
   console.log(action);
   // 1. 비동기 함수 호출(API연동)
   const result = yield call(api.list);
-  console.log ("--saga : api result--")
+  console.log("--saga : api result--")
   console.log(result.data);
 
   // 2. dispatch를 실행하는 부분
-  yield put({type: 'FETCH_TASKS_SUCCEEDED', payload: result.data }) 
+  yield put({ type: 'FETCH_TASKS_SUCCEEDED', payload: result.data })
 }
 
 function* tasksSaga() {
@@ -44,7 +44,7 @@ function* tasksSaga() {
 
   // yile takeEvery("액션타입, 처리할 제너레이터함수")
   yield takeEvery("ADD_TASK", addTask);
-  
+
   yield takeEvery("REMOVE_TASK", removeTask);
   // takeLatest: 해당 액션이 발생 할 때 가장 나중에 호출할 액션 처리
   //             이전의 액션은 취소가 됨
